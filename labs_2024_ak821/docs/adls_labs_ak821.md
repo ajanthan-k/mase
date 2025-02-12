@@ -54,3 +54,28 @@ The following combinations of widths were tested: `(4,2), (6,3), (8,4), (10,5), 
 
 ### Tutorial 4: Pruning
 
+> **Task**:
+> Run the pruning procedure, this time varying the sparsity from 0.1 to 0.9, and with Random and L1-Norm methods to evaluate the effect of different pruning strategies. 
+
+We run pruning procedure with combination of sparsities from 0.1 to 0.9 and both random and L1-norm methods. For each combination, 3 epochs of training were run after pruning.
+
+**Accuracy**
+
+![combined_pruning](../tutorial_4/imgs/combined_pruning_results.png)
+
+![pruning_comparison](../tutorial_4/imgs/pruning_comparison.png)
+
+- L1-norm pruning consistently outperforms random pruning at all sparsity levels.
+- Random pruning shows severe accuracy drops beyond 40% sparsity, failing to recover well even after training.
+- L1-norm pruning maintains high accuracy up to 60-70% sparsity, after which accuracy degradation is noticeable.
+
+**Time**
+
+![timing_comparison](../tutorial_4/imgs/timing_comparison.png)
+
+- L1-norm pruning is significantly faster than random pruning at all sparsity levels.
+- Random pruning time increases with sparsity, whereas L1-norm pruning remains relatively constant (~6-7 minutes).
+- Random pruning leads to much longer training times (~14-19 minutes) compared to L1-Norm (~4-5 minutes).
+
+L1-norm pruning is faster as it computes the absolute sum of weights per neuron/attention head, sorts them, and prunes entire structures, preserving tensor efficiency. In contrast, random pruning selects individual weights, creating unstructured sparsity, leading to inefficient GPU operations.
+
